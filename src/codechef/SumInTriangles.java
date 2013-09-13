@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 
 public class SumInTriangles
 {
-
     static Integer max = Integer.MIN_VALUE;
 
     static int[] result;
