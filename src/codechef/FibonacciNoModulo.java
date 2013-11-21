@@ -1,6 +1,7 @@
 package codechef;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,40 +10,42 @@ import java.util.Scanner;
 public class FibonacciNoModulo
 {
 
-    private static ArrayList< Double > result = new ArrayList< Double >();
-    private static Map< Integer, Double > fibonacci = new HashMap< Integer, Double >();
+    private static ArrayList< BigInteger > result = new ArrayList< BigInteger >();
+    private static Map< BigInteger, BigInteger > fibonacci = new HashMap< BigInteger, BigInteger >();
 
     public static void main( String args[] ) throws NumberFormatException, IOException
     {
         Scanner sc = new Scanner( System.in );
 
         int count = sc.nextInt();
-        double c;
-        double p;
+        BigInteger c;
+        BigInteger p;
 
         for ( int i = 0; i < count; i++ )
         {
-            c = sc.nextDouble();
-            p = sc.nextDouble();
+            c = sc.nextBigInteger();
+            p = sc.nextBigInteger();
             result.add( findFibonacciNumber( c, p ) );
         }
 
-        for ( Double res : result )
+        for ( BigInteger res : result )
         {
             System.out.println( res );
         }
 
     }
 
-    public static double findFibonacciNumber( double c, double p )
+    public static BigInteger findFibonacciNumber( BigInteger c, BigInteger p )
     {
-        double n = -1;
+        BigInteger n = new BigInteger( "-1" );
 
-        for ( int i = 0; i <= Integer.MAX_VALUE; i++ )
+        for ( BigInteger i = BigInteger.ZERO; i.compareTo( new BigInteger( "" + Integer.MAX_VALUE ) ) <= 0; i = i.add( BigInteger.ONE ) )
         {
-            double fibo = fibonacci( i );
+            BigInteger fibo = fibonacci( i );
+
             fibonacci.put( i, fibo );
-            if ( ( ( fibo - c ) % p ) == 0 )
+
+            if ( ( fibo.subtract( c ) ).mod( p ).compareTo( BigInteger.ZERO ) == 0 )
             {
                 n = i;
                 break;
@@ -53,41 +56,22 @@ public class FibonacciNoModulo
 
     }
 
-    public static double fibonacci( int n )
+    public static BigInteger fibonacci( BigInteger n )
     {
-        Double fibo = fibonacci.get( n );
+        BigInteger fibo = fibonacci.get( n );
 
         if ( fibo != null )
         {
             return fibo;
         }
-        else if ( n <= 1 )
+        else if ( n.compareTo( BigInteger.ONE ) <= 0 )
         {
             return n;
         }
         else
         {
-            return fibonacci( n - 1 ) + fibonacci( n - 2 );
+            return fibonacci( n.subtract( BigInteger.ONE ) ).add( fibonacci( n.subtract( new BigInteger( "2" ) ) ) );
         }
     }
-    /* 
-     *         long res = c % p;
-    long previousFibo = 0;
-    long currentFibo = 0;
 
-           int k = Integer.MAX_VALUE;
-
-            for ( int a = 0; a < p; a++ )
-            {
-                previousFibo = currentFibo;
-                currentFibo = fibonacci( a );
-                fibonacci.put( a, currentFibo );
-                if ( c >= previousFibo && c <= currentFibo )
-                {
-                    k = a;
-                    break;
-                }
-            }
-
-            long pisanoPeriod = 4 * k;*/
 }
